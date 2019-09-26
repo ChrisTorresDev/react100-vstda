@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
+import TodoItem from "./TodoItem";
 
 class App extends Component {
+  // constructor () {
+  //   super()
+  //   this.state = {
+  //     todos: todosData
+  //   }
+  // }
 
   render() {
+    // const TodoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item}/>)
+
     return (
       <div className='container'>
         <div className="row">
@@ -37,20 +46,9 @@ class App extends Component {
               <div className="card-header">
                 View Todos
               </div>
-              <div className="card-body">
-                <div className="input-group todo-item">
-                  <div className="todo-checkbox">
-                    <input type="checkbox" aria-label="checkbox for todo item"/>
-                  </div>
-                  <div className="col-10">
-                    <p className="item-title">This is item one</p>
-                  </div>
-                  <div className="col aline-self-end">
-                    <a href="#" className="delete-todo"><i className='fas fa-trash-alt'></i></a>
-                    <a href="#" className="edit-todo"><i className='far fa-edit'></i></a>
-                  </div>
-                </div>
-              </div>
+              <TodoItem />
+              <TodoItem />
+              <TodoItem />
             </div>
           </div>
         </div>
