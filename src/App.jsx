@@ -1,17 +1,47 @@
 import React, { Component } from 'react';
-import TodoItem from "./TodoItem";
+import Form from "./Form";
+import Table from './Table';
 
 class App extends Component {
-  // constructor () {
-  //   super()
-  //   this.state = {
-  //     todos: todosData
-  //   }
-  // }
+  constructor() {
+    super()
+    this.state = {
+      todo: '',
+      priority: '',
+      items: []
+    }
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  };
+
+  handleFormChange(e) {
+    e.preventDefault();
+
+    let items = [...this.state.items];
+
+    items.push({
+      todo: this.state.todo,
+      priority: this.state.priority
+    });
+
+    this.setState({
+      items,
+      todo: '',
+      priority: ''
+    });
+  };
+
+  handleInputChange(e) {
+    let textarea = e.target;
+    let name = e.target.name;
+    let value = textarea.value;
+
+    this.setState({
+      [name]: value
+    })
+  };
 
   render() {
-    // const TodoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item}/>)
-
     return (
       <div className='container'>
         <div className="row">
@@ -25,20 +55,24 @@ class App extends Component {
               <div className="card-header">
                 Add New Todo
               </div>
-              <div className="card-body">
+              <Form handleFormSubmit={ this.handleFormSubmit } 
+                handleInputChange={ this.handleInputChange }
+                newTodo={ this.state.todo }
+                newPriority={ this.state.priority } />
+              {/* <div className="card-body">
                 <h5 className="card-title">I want to..</h5>
-                <textarea name="" id="" cols="30" rows="10" className="create-todo-text"></textarea>
+                <textarea className="create-todo-text" name='todo' onChange={this.handleChange} />
                 <h5 className="card-title">How much of a priority is this</h5>
-                <select name="" id="" className="create-todo-priority">
+                <select name="" id="" className="create-todo-priority" name='priority' onChange={this.handleChange}>
                   <option value="">Select a Priority</option>
                   <option value="1">High</option>
                   <option value="2">Medium</option>
                   <option value="3">Low</option>
                 </select>
-              </div>
-              <div className="card-footer">
+              </div> */}
+              {/* <div className="card-footer">
               <a href="#" id="add-item" className="btn btn-primary">Add</a>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="form-group col-8">
@@ -46,9 +80,7 @@ class App extends Component {
               <div className="card-header">
                 View Todos
               </div>
-              <TodoItem />
-              <TodoItem />
-              <TodoItem />
+              <Table items={ this.state.items }/>
             </div>
           </div>
         </div>
