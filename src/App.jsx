@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Form from "./Form";
 import Table from './Table';
+import Form from "./Form";
 
 class App extends Component {
   constructor() {
@@ -17,7 +17,7 @@ class App extends Component {
   handleFormChange(e) {
     e.preventDefault();
 
-    let items = [...this.state.items];
+    let items = [this.state.items];
 
     items.push({
       todo: this.state.todo,
@@ -32,9 +32,9 @@ class App extends Component {
   };
 
   handleInputChange(e) {
-    let textarea = e.target;
+    let input = e.target;
     let name = e.target.name;
-    let value = textarea.value;
+    let value = input.value;
 
     this.setState({
       [name]: value
@@ -51,37 +51,13 @@ class App extends Component {
             <hr className="my-4"/>
           </div>
           <div className="form-group col-4">
-            <div className="card">
-              <div className="card-header">
-                Add New Todo
-              </div>
-              <Form handleFormSubmit={ this.handleFormSubmit } 
-                handleInputChange={ this.handleInputChange }
-                newTodo={ this.state.todo }
-                newPriority={ this.state.priority } />
-              {/* <div className="card-body">
-                <h5 className="card-title">I want to..</h5>
-                <textarea className="create-todo-text" name='todo' onChange={this.handleChange} />
-                <h5 className="card-title">How much of a priority is this</h5>
-                <select name="" id="" className="create-todo-priority" name='priority' onChange={this.handleChange}>
-                  <option value="">Select a Priority</option>
-                  <option value="1">High</option>
-                  <option value="2">Medium</option>
-                  <option value="3">Low</option>
-                </select>
-              </div> */}
-              {/* <div className="card-footer">
-              <a href="#" id="add-item" className="btn btn-primary">Add</a>
-              </div> */}
-            </div>
+            <Form handleFormSubmit={ this.handleFormSubmit } 
+              handleInputChange={ this.handleInputChange }
+              newTodo={ this.state.todo }
+              newPriority={ this.state.priority } />
           </div>
           <div className="form-group col-8">
-            <div className="card">
-              <div className="card-header">
-                View Todos
-              </div>
-              <Table items={ this.state.items }/>
-            </div>
+            <Table items={ this.state.items }/>
           </div>
         </div>
       </div>
