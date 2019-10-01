@@ -3,8 +3,8 @@ import './App';
 
 class Table extends React.Component {
   render() {
+
     const items = this.props.items;
-    console.log(items);
     return (
       <div className="card">
         <div className="card-header">

@@ -3,21 +3,21 @@ import Table from './Table';
 import Form from "./Form";
 
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       todo: '',
       priority: '',
       items: []
     }
-    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   };
 
-  handleFormChange(e) {
+  handleFormSubmit(e) {
     e.preventDefault();
 
-    let items = [this.state.items];
+    let items = [...this.state.items];
 
     items.push({
       todo: this.state.todo,
@@ -32,13 +32,7 @@ class App extends Component {
   };
 
   handleInputChange(e) {
-    let input = e.target;
-    let name = e.target.name;
-    let value = input.value;
-
-    this.setState({
-      [name]: value
-    })
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
