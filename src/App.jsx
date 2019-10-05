@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Table from './Table';
 import Form from "./Form";
+import UpdateItem from './UpdateItem';
 
 class App extends Component {
   constructor(props) {
@@ -8,10 +9,12 @@ class App extends Component {
     this.state = {
       todo: '',
       priority: '',
-      items: []
+      items: [],
+      id: 0
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   };
 
   handleFormSubmit(e) {
@@ -21,19 +24,40 @@ class App extends Component {
 
     items.push({
       todo: this.state.todo,
-      priority: this.state.priority
+      priority: this.state.priority,
+      id: this.state.id
     });
 
     this.setState({
       items,
       todo: '',
-      priority: ''
+      priority: '',
+      id: Date.now()
     });
   };
 
   handleInputChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-  };
+  };  
+
+  updateItem(e) {
+    var changedItems = this.state.updateItems.filter(function (items) {
+      return (<UpdateItem />)
+    });
+    this.setState({
+      items: changedItems
+    })
+  }
+
+  deleteItem(id) {
+    var filteredItems = this.state.items.filter(function (items) {
+      return (items.id !== id)
+    });
+
+    this.setState({
+      items: filteredItems
+    });
+  }
 
   render() {
     return (
@@ -51,7 +75,9 @@ class App extends Component {
               newPriority={ this.state.priority } />
           </div>
           <div className="form-group col-8">
-            <Table items={ this.state.items }/>
+            <Table items={ this.state.items }
+              update={this.updateItem}
+              delete={this.deleteItem} />
           </div>
         </div>
       </div>

@@ -5,9 +5,10 @@ class UpdateItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            updateTodo: '',
-            updatePriority: '',
-            updateItems: []
+            updateTodo: this.props.todo,
+            updatePriority: this.props.priority,
+            updateItems: this.props.items,
+            updateId: this.props.id
         }
         this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
         this.handleUpdateChange = this.handleUpdateChange.bind(this);

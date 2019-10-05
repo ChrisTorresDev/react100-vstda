@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import UpdateItem from './UpdateItem';
 import './App';
 
 class Table extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      items: []
-    }
-    this.handleDeleteRow = this.handleDeleteRow.bind(this)
-  };
 
-
-  
-
-  handleDeleteRow(i) {
-    let items = [...this.state.items]
-    items.splice(i, 1)
-    this.setState({ 
-      items: items
-    })
+  update(id) {
+    this.props.update(id);
   }
 
-  render() {
-    const items = this.props.items;
-    const updateItems = this.props.updateItems;
+  delete(id) {
+    this.props.delete(id);
+  }
 
+  render() { 
+
+    const items = this.props.items;
 
     return (
       <div className="card">
@@ -34,20 +22,35 @@ class Table extends React.Component {
         </div>
         <div className="card-body">
           <div id="Table">
-            <table>
-              <tbody>
-                {items.map((item, i) => {
+            <ul className="list-group">
+            {items.map((item) => {
                   return (
-                    <tr className="alert alert-danger" role="alert" key={i}>
+                    <li className="list-group-item">
+                      <input type="checkbox" aria-label="checkbox for todo item"/>{item.todo}
+                      <span>
+                        <a className="edit-todo"><i className='far fa-edit' onClick={() => this.update(item.todo)}></i></a>
+                      </span>
+                      <span>
+                      <a className="delete-todo"><i className='fas fa-trash-alt' onClick={() => this.delete(item.id)}></i></a>
+                      </span>
+                    </li>
+                  );
+                })}
+            </ul>
+            {/* <table>
+              <tbody>
+                {items.map((item) => {
+                  return (
+                    <tr className="alert alert-danger" role="alert" >
                       <td className="todo-checkbox"><input type="checkbox" aria-label="checkbox for todo item"/></td>
                       <td className='todo-item'>{item.todo}</td>
-                      <td><a className="edit-todo"><i className='far fa-edit'></i></a></td>
-                      <td><a className="delete-todo"><i className='fas fa-trash-alt' onClick={i => this.handleDeleteRow(i)}></i></a></td>
+                      <td><a className="edit-todo"><i className='far fa-edit' onClick={() => this.update(item.todo)}></i></a></td>
+                      <td><a className="delete-todo"><i className='fas fa-trash-alt' onClick={() => this.delete(item.id)}></i></a></td>
                     </tr>
                   );
                 })}
               </tbody>
-            </table>
+            </table> */}
           </div>
         </div>
       </div>
