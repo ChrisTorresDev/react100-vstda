@@ -1,42 +1,10 @@
 import React, { Component } from 'react';
-import './App';
 
 
 class UpdateItem extends Component {
-    // // constructor(props) {
-    // //     super(props)
-    // //     this.state = {
-    // //       todo: props.items.todo,
-    // //       priority: props.items.priority,
-    //     //   items: props.items,
-    //     }
-    //     // this.handleUpdateSubmit = this.handleFormSubmit.bind(this);
-    //     // this.handleUpdateChange = this.handleInputChange.bind(this);
-    //   };
-    
-    //   handleUpdateSubmit(e) {
-    //     e.preventDefault();
-    
-    //     let items = [...this.state.items];
-    
-    //     items.push({
-    //       todo: this.state.todo,
-    //       priority: this.state.priority,
-    //     });
-    
-    //     this.setState({
-    //       items,
-    //       todo: '',
-    //       priority: '',
-    //     });
-    //   };
-    
-    //   handleUpdateChange(e) {
-    //     this.setState({ [e.target.name]: e.target.value });
-    //   };
 
     render() {
-        
+
         return (
             <div id="updateItem">
                 <form onSubmit={this.handleUpdateSubmit}>

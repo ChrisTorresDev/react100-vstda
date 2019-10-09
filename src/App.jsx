@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import List from './List';
 import Form from "./Form";
+import UpdateItem from './UpdateItem';
+
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +16,9 @@ class App extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleUpdateChange = this.handleUpdateChange.bind(this);
   };
 
   handleFormSubmit(e) {
@@ -39,7 +44,39 @@ class App extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  // priorityClass(priority) {
+  //   switch (priority) {
+  //     case '1':
+  //       return 'list-group-item-warning';
+  //     case '2':
+  //       return 'list-group-item-success';
+  //     case '3':
+  //       return 'list-group-item-danger';
+  //   }
+  // }
 
+
+  
+  handleUpdateSubmit(e) {
+    e.preventDefault();
+    
+    this.setState({
+      editEnabled: false, todo: todo, priority: priority
+    });
+  };
+  
+  handleUpdateChange(e) {
+    this.setState({ 
+      [e.target.name]: e.target.value 
+    });
+  };
+  
+  handleEdit() {
+    this.setState({
+      editEnabled: true
+    });
+  }
+  
   deleteItem(id) {
     var filteredItems = this.state.items.filter(function (items) {
       return (items.id !== id)
@@ -51,8 +88,9 @@ class App extends Component {
   }
 
   render() {
-    const editEnabled = this.state.editEnabled;
 
+    const editEnabled = this.state.editEnabled;
+    
     return (
       <div className='container'>
         <div className="row">
@@ -68,8 +106,23 @@ class App extends Component {
               newPriority={this.state.priority} />
           </div>
           <div className="form-group col-8">
-            <List items={this.state.items}
-              delete={this.deleteItem} />
+            <div className="card">
+              <div className="card-header">
+                View Todos
+              </div>
+              <div className="card-body">
+                {editEnabled ? <UpdateItem
+                  handleUpdateSubmit={this.handleUpdateSubmit}
+                  handleUpdateChange={this.handleUpdateChange}
+                  updateTodo={this.state.todo}
+                  updatePriority={this.state.priority} />
+                  :
+                  <List items={this.state.items}
+                    priorityClass={this.priorityClass}
+                    edit={this.handleEdit}
+                    delete={this.deleteItem} />}
+              </div>
+            </div>
           </div>
         </div>
       </div>
