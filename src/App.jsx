@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import List from './List';
 import Form from "./Form";
-import UpdateItem from './UpdateItem';
 
 class App extends Component {
   constructor(props) {
@@ -11,12 +10,9 @@ class App extends Component {
       priority: '',
       items: [],
       id: 0,
-      editIdx: -1
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleUpdateChange = this.handleUpdateChange.bind(this);
-    this.startEditing = this.startEditing.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
   };
 
@@ -43,24 +39,6 @@ class App extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  startEditing(id) {
-    this.setState({
-      editIdx: id
-    });
-  }
-
-  stopEditing() {
-    this.setState({
-      editIdx: -1
-    })
-  }
-
-  handleUpdateChange(e, name, i) {
-    const { value } = e.target;
-    this.setState(state => ({
-      items: state.items.map((items, j) => j === i ? { items, [name]: value } : items)
-    }));
-  }
 
   deleteItem(id) {
     var filteredItems = this.state.items.filter(function (items) {
@@ -73,6 +51,8 @@ class App extends Component {
   }
 
   render() {
+    const editEnabled = this.state.editEnabled;
+
     return (
       <div className='container'>
         <div className="row">
@@ -89,9 +69,6 @@ class App extends Component {
           </div>
           <div className="form-group col-8">
             <List items={this.state.items}
-              handleUpdateChange={this.handleUpdateChange}
-              editIdx={this.editIdx}
-              editing={this.startEditing}
               delete={this.deleteItem} />
           </div>
         </div>
