@@ -4,79 +4,67 @@ import Form from "./Form";
 import UpdateItem from './UpdateItem';
 
 
+let items = [];
+var id =0;
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todo: '',
-      priority: '',
-      items: [],
-      id: 0,
+      items: []
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
-    this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleUpdateChange = this.handleUpdateChange.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   };
 
-  handleFormSubmit(e) {
-    e.preventDefault();
+  handleFormSubmit(todo, priority) {
 
-    let items = [...this.state.items];
+    let tempItems = this.state.items;
 
-    items.push({
-      todo: this.state.todo,
-      priority: this.state.priority,
-      id: this.state.id,
-    });
+    let newTodo = {
+      id: id,
+      todo: todo,
+      priority: priority,
+      editEnabled: false
+    }
+
+    tempItems.push(newTodo);
 
     this.setState({
-      items,
-      todo: '',
-      priority: '',
-      id: Date.now(),
+      items: tempItems
     });
+
+    id++;
   };
 
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleEdit(id) {
 
-  // priorityClass(priority) {
-  //   switch (priority) {
-  //     case '1':
-  //       return 'list-group-item-warning';
-  //     case '2':
-  //       return 'list-group-item-success';
-  //     case '3':
-  //       return 'list-group-item-danger';
-  //   }
-  // }
-
-
-  
-  handleUpdateSubmit(e) {
-    e.preventDefault();
+    let editItems = this.state.items;
     
-    this.setState({
-      editEnabled: false, todo: todo, priority: priority
-    });
-  };
-  
-  handleUpdateChange(e) {
-    this.setState({ 
-      [e.target.name]: e.target.value 
-    });
-  };
-  
-  handleEdit() {
-    this.setState({
-      editEnabled: true
-    });
+    for (let i = 0; i < editItems.length; i++){
+      if (editItems[i].id == id) {
+        editItems[i].editEnabled = true;
+      }
+    }
+
+    this.setState({items: editItems});
   }
-  
+
+  handleSave(id) {
+
+    let saveItems = this.state.items;
+    
+    for (let i = 0; i < saveItems.length; i++){
+      if (saveItems[i].id == id) {
+        saveItems[i].editEnabled = true;
+      }
+    }
+
+    this.setState({items: saveItems});
+  }
+
   deleteItem(id) {
     var filteredItems = this.state.items.filter(function (items) {
       return (items.id !== id)
@@ -89,8 +77,9 @@ class App extends Component {
 
   render() {
 
-    const editEnabled = this.state.editEnabled;
-    
+    const items = this.state.items;
+    const editEnabled = items.editEnabled;
+
     return (
       <div className='container'>
         <div className="row">
@@ -100,10 +89,9 @@ class App extends Component {
             <hr className="my-4" />
           </div>
           <div className="form-group col-4">
-            <Form handleFormSubmit={this.handleFormSubmit}
-              handleInputChange={this.handleInputChange}
-              newTodo={this.state.todo}
-              newPriority={this.state.priority} />
+            <Form 
+              handleFormSubmit={this.handleFormSubmit}
+            />
           </div>
           <div className="form-group col-8">
             <div className="card">
@@ -111,16 +99,24 @@ class App extends Component {
                 View Todos
               </div>
               <div className="card-body">
-                {editEnabled ? <UpdateItem
-                  handleUpdateSubmit={this.handleUpdateSubmit}
-                  handleUpdateChange={this.handleUpdateChange}
-                  updateTodo={this.state.todo}
-                  updatePriority={this.state.priority} />
-                  :
-                  <List items={this.state.items}
-                    priorityClass={this.priorityClass}
-                    edit={this.handleEdit}
-                    delete={this.deleteItem} />}
+                {items.map((item) => {
+                  return (
+                    editEnabled ? (<UpdateItem todo={this.todo}
+                      priority={this.priority}
+                      save={this.handleSave} />)
+                :
+                    (<List
+                    key={item.id}
+                    todo={item.todo}
+                    priority={item.priority}
+                    id={item.id}
+                    // editEnabled={item.editEnabled}
+
+                    // handleSave={this.handleSave}
+                    delete={this.deleteItem}
+                    handleEdit={this.handleEdit} />)
+                    );
+                    })}
               </div>
             </div>
           </div>
