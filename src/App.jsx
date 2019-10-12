@@ -5,7 +5,7 @@ import UpdateItem from './UpdateItem';
 
 
 let items = [];
-var id =0;
+var id = 0;
 
 class App extends Component {
   constructor(props) {
@@ -14,9 +14,9 @@ class App extends Component {
       items: []
     }
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   };
 
   handleFormSubmit(todo, priority) {
@@ -42,27 +42,33 @@ class App extends Component {
   handleEdit(id) {
 
     let editItems = this.state.items;
-    
-    for (let i = 0; i < editItems.length; i++){
+
+    for (let i = 0; i < editItems.length; i++) {
       if (editItems[i].id == id) {
         editItems[i].editEnabled = true;
       }
     }
 
-    this.setState({items: editItems});
+    this.setState({
+      items: editItems
+    });
   }
 
-  handleSave(id) {
+  handleSave(id, todo, priority) {
 
     let saveItems = this.state.items;
-    
-    for (let i = 0; i < saveItems.length; i++){
+
+    for (let i = 0; i < saveItems.length; i++) {
       if (saveItems[i].id == id) {
-        saveItems[i].editEnabled = true;
+        saveItems[i].editEnabled = false;
+        saveItems[i].todo = todo;
+        saveItems[i].priority = priority;
       }
     }
 
-    this.setState({items: saveItems});
+    this.setState({
+      items: saveItems
+    });
   }
 
   deleteItem(id) {
@@ -77,9 +83,6 @@ class App extends Component {
 
   render() {
 
-    const items = this.state.items;
-    const editEnabled = items.editEnabled;
-
     return (
       <div className='container'>
         <div className="row">
@@ -89,9 +92,7 @@ class App extends Component {
             <hr className="my-4" />
           </div>
           <div className="form-group col-4">
-            <Form 
-              handleFormSubmit={this.handleFormSubmit}
-            />
+            <Form handleFormSubmit={this.handleFormSubmit} />
           </div>
           <div className="form-group col-8">
             <div className="card">
@@ -99,24 +100,11 @@ class App extends Component {
                 View Todos
               </div>
               <div className="card-body">
-                {items.map((item) => {
-                  return (
-                    editEnabled ? (<UpdateItem todo={this.todo}
-                      priority={this.priority}
-                      save={this.handleSave} />)
-                :
-                    (<List
-                    key={item.id}
-                    todo={item.todo}
-                    priority={item.priority}
-                    id={item.id}
-                    // editEnabled={item.editEnabled}
-
-                    // handleSave={this.handleSave}
-                    delete={this.deleteItem}
-                    handleEdit={this.handleEdit} />)
-                    );
-                    })}
+                <List items={this.state.items}
+                  handleEdit={this.handleEdit}
+                  deleteItem={this.deleteItem}
+                  handleSave={this.handleSave} 
+                  />
               </div>
             </div>
           </div>

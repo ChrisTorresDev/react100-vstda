@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
-// import UpdateItem from './UpdateItem';
+import UpdateItem from './UpdateItem';
+import NewItem from './NewItem';
 
-class List extends React.Component {
+class List extends Component {
   constructor(props) {
     super(props)
     this.state = {
       items: this.props.items,
-      todo: this.props.todo,
-      priority: this.props.priority,
-      id: this.props.id
     }
-    // this.handleSave = this.handleSave.bind(this);
+    this.showEditItem = this.showEditItem.bind(this)
+    this.showNormalItem = this.showNormalItem.bind(this)
   };
+
+showEditItem(editEnabled){
+  if(editEnabled){
+    return 'block';
+  } else{
+    return 'none';
+  }
+}
+
+showNormalItem(editEnabled){
+  if(editEnabled){
+    return 'none';
+  } else{
+    return 'block';
+  }
+}
 
   priorityClass(priority) {
     switch (priority) {
@@ -24,54 +39,48 @@ class List extends React.Component {
     }
   }
 
-  // edit(id) {
-  //   this.props.edit(id);
-  // }
-
-  delete(id) {
-    this.props.delete(id);
-  }
-  
-  
-
-  // handleSave(todo, priority) {
-  //   this.setState({
-  //     editEnabled: false,
-  //     todo: todo,
-  //     priority: priority
-  //   });
-  // }
-
-  handleSave(id) {
-
-    let saveItems = this.state.items;
-    
-    for (let i = 0; i < saveItems.length; i++){
-      if (saveItems[i].id == id) {
-        saveItems[i].editEnabled = true;
-      }
-    }
-
-    this.setState({items: saveItems});
-  }
-
-
   render() {
-  //   const editEnabled = this.props.editEnabled;
+    const items = this.props.items;
     return (
-      // editEnabled ? (<UpdateItem todo={this.todo}
-      //       priority={this.priority}
-      //       save={this.handleSave} />)
-      // :
-      <div className="card">
-      <div className={this.priorityClass(this.props.priority)} >
-        <input type="checkbox"/>
-        <label value='todo'>{this.props.todo}</label>
-        <button onClick={() => this.props.handleEdit(this.props.id)}><span><i className='far fa-edit'></i></span></button>
-        <button onClick={() => this.props.delete(this.props.id)}><span><i className='fas fa-trash-alt'></i></span></button>
+      <div>
+        <div>
+          {items.map((item) => {
+            return (
+              <UpdateItem 
+                key={item.id}
+                todo={item.todo}
+                priority={item.priority}
+                id={item.id}
+                editEnabled={item.editEnabled}
+
+                handleSave={this.props.handleSave} 
+                showEditItem={this.showEditItem}
+                showNormalItem={this.showNormalItem}
+                />
+            )
+          })}
+        </div>
+
+        <div>
+          {items.map((item) => {
+            return (
+              <NewItem 
+                key={item.id}
+                todo={item.todo}
+                priority={item.priority}
+                id={item.id}
+                editEnabled={item.editEnabled}
+
+                showEditItem={this.showEditItem}
+                showNormalItem={this.showNormalItem}
+                priorityClass={this.priorityClass}
+                handleEdit={this.props.handleEdit}
+                deleteItem={this.props.deleteItem} />
+            )
+          })}
+        </div>
       </div>
-      </div>
-    );
+    )
   }
 }
 

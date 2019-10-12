@@ -11,9 +11,11 @@ class Form extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     };
 
+
+
     handleInputChange(e) {
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
