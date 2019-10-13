@@ -52,8 +52,10 @@ showNormalItem(editEnabled){
                 priority={item.priority}
                 id={item.id}
                 editEnabled={item.editEnabled}
+                isDone={item.isDone}
 
                 handleSave={this.props.handleSave} 
+                completedTodo={this.props.completedTodo}
                 showEditItem={this.showEditItem}
                 showNormalItem={this.showNormalItem}
                 />
@@ -70,12 +72,15 @@ showNormalItem(editEnabled){
                 priority={item.priority}
                 id={item.id}
                 editEnabled={item.editEnabled}
+                isDone={item.isDone}
 
                 showEditItem={this.showEditItem}
                 showNormalItem={this.showNormalItem}
                 priorityClass={this.priorityClass}
                 handleEdit={this.props.handleEdit}
-                deleteItem={this.props.deleteItem} />
+                deleteItem={this.props.deleteItem}
+                completedTodo={this.props.completedTodo}
+                />
             )
           })}
         </div>

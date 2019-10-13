@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import List from './List';
 import Form from "./Form";
-import UpdateItem from './UpdateItem';
 
 
 let items = [];
@@ -17,6 +16,7 @@ class App extends Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.completedTodo = this.completedTodo.bind(this);
   };
 
   handleFormSubmit(todo, priority) {
@@ -27,7 +27,8 @@ class App extends Component {
       id: id,
       todo: todo,
       priority: priority,
-      editEnabled: false
+      editEnabled: false,
+      isDone: false
     }
 
     tempItems.push(newTodo);
@@ -81,6 +82,20 @@ class App extends Component {
     });
   }
 
+  completedTodo(id){
+    let completedTodoItem = this.state.items;
+
+    for(let i = 0; i < completedTodoItem.length; i++){
+      if (completedTodoItem[i].id == id) {
+        completedTodoItem[i].isDone = !completedTodoItem[i].isDone;
+      }
+    }
+
+    this.setState({
+      items: completedTodoItem
+    });
+  }
+
   render() {
 
     return (
@@ -104,6 +119,7 @@ class App extends Component {
                   handleEdit={this.handleEdit}
                   deleteItem={this.deleteItem}
                   handleSave={this.handleSave} 
+                  completedTodo={this.completedTodo}
                   />
               </div>
             </div>
